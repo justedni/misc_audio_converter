@@ -8,6 +8,7 @@
 #include "indywv.h"
 #include "labn.h"
 #include "wave.h"
+#include "inti_bigrp.h"
 #include "unit_test.h"
 
 #include "cryo_apc.h"
@@ -16,6 +17,7 @@
 
 const char* kInArg = "-in";
 const char* kOutArg = "-out";
+const char* kGameArg = "-game";
 const char* kUnitTestArg = "-unit_test";
 
 std::string get_filename_noext(const std::string& filepath)
@@ -97,6 +99,7 @@ EFileType getFileTypeFromExt(const std::string& filePath)
     else if (ext == ".wv") { return EFileType::IndyWV; }
     else if (ext == ".wav") { return EFileType::Wave; }
     else if (ext == ".apc") { return EFileType::CryoAPC; }
+    else if (ext == ".bigrp") { return EFileType::IntiBigrp; }
 
     return EFileType::Unknown;
 }
@@ -124,11 +127,15 @@ EFileType getFileType(std::ifstream& file)
     {
         return EFileType::CryoAPC;
     }
+    else if (strncmp(header, Inti::kBigrpTag, sizeof(Inti::kBigrpTag)) == 0)
+    {
+        return EFileType::IntiBigrp;
+    }
 
     return EFileType::Unknown;
 }
 
-bool convertFile(const std::string& inputPath, const std::string& outputArg)
+bool convertFile(const std::string& inputPath, const std::string outputArg, string_map* params)
 {
     std::ifstream file(inputPath, std::ios::in | std::ios::binary | std::ios::ate);
     if (!file.is_open())
@@ -164,6 +171,33 @@ bool convertFile(const std::string& inputPath, const std::string& outputArg)
         CryoAPC::apc_to_wav(inputPath, outFilePath);
         break;
     }
+    case EFileType::IntiBigrp:
+    {
+        Inti::BigrpOptions options;
+        options.bPrefixWithBigrpName = true;
+        options.bExportMergedMidis = true;
+
+        assert(params);
+        if (params->find(kGameArg) != params->end() && !(*params)[kGameArg].empty())
+        {
+            const std::string gameArg = (*params)[kGameArg][0];
+            if (Utils::str_to_lower(gameArg) == "cotm1")
+                options.game = Inti::EGame::Cotm1;
+            else if (Utils::str_to_lower(gameArg) == "cotm2")
+                options.game = Inti::EGame::Cotm2;
+        }
+
+        if (options.game == Inti::EGame::Unknown)
+        {
+            std::cerr << "Please input a game ID for Inti Bigrp files! Using -game <GameId>\n";
+        }
+        else
+        {
+            Inti::bigrp_to_midi(inputPath, outputArg, options);
+        }
+
+        break;
+    }
     case EFileType::Unknown:
     default:
         std::cerr << "Unrecognized input file type\n";
@@ -196,7 +230,7 @@ void do_unit_tests()
         auto inPath = folder / test.inFile;
         auto outPath = (folder / "temp").string() + "." + test.outExt;
         auto refFilePath = folder / test.refFile;
-        convertFile(inPath.string(), outPath);
+        convertFile(inPath.string(), outPath, nullptr);
         UnitTest::unit_test(test.name, outPath, refFilePath.string());
         std::remove(outPath.c_str());
     }
@@ -209,6 +243,7 @@ int main(int argc, const char* argv[])
     std::unordered_map<std::string, std::string> keys = {
         { kInArg, kInArg },
         { kOutArg, kOutArg },
+        { kGameArg, kGameArg },
         { kUnitTestArg, kUnitTestArg }
     };
 
@@ -248,11 +283,11 @@ int main(int argc, const char* argv[])
     {
         for (const auto& entry : std::filesystem::directory_iterator(inPath))
         {
-            convertFile(entry.path().string(), outArg);
+            convertFile(entry.path().string(), outArg, &result);
         }
     }
     else if (fs::is_regular_file(inPath))
     {
-        convertFile(inputPath, outArg);
+        convertFile(inputPath, outArg, &result);
     }
 }

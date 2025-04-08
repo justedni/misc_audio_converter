@@ -7,6 +7,12 @@
     <Filter Include="src\formats">
       <UniqueIdentifier>{a220c14c-2904-43e6-8c67-23d629f3ed18}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\external">
+      <UniqueIdentifier>{d6bd4b31-3d6d-4548-b336-60db9e028a07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\external\MidiFile">
+      <UniqueIdentifier>{391dc1cb-13f2-4e49-b621-c88ae4673d46}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\unit_test.cpp">
@@ -33,6 +39,36 @@
     <ClCompile Include="..\src\formats\cryo_apc.cpp">
       <Filter>src\formats</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\formats\inti_bigrp.cpp">
+      <Filter>src\formats</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\external\midifile\src\Binasc.cpp">
+      <Filter>src\external\MidiFile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\external\midifile\src\MidiEvent.cpp">
+      <Filter>src\external\MidiFile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\external\midifile\src\MidiEventList.cpp">
+      <Filter>src\external\MidiFile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\external\midifile\src\MidiFile.cpp">
+      <Filter>src\external\MidiFile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\external\midifile\src\MidiMessage.cpp">
+      <Filter>src\external\MidiFile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\external\midifile\src\Options.cpp">
+      <Filter>src\external\MidiFile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\formats\midi.cpp">
+      <Filter>src\formats</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\formats\inti_ron8.cpp">
+      <Filter>src\formats</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\formats\inti_icelib.cpp">
+      <Filter>src\formats</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\unit_test.h">
@@ -54,6 +90,33 @@
       <Filter>src\formats</Filter>
     </ClInclude>
     <ClInclude Include="..\src\formats\cryo_apc.h">
+      <Filter>src\formats</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\formats\inti_bigrp.h">
+      <Filter>src\formats</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\external\midifile\include\Options.h">
+      <Filter>src\external\MidiFile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\external\midifile\include\Binasc.h">
+      <Filter>src\external\MidiFile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\external\midifile\include\MidiEvent.h">
+      <Filter>src\external\MidiFile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\external\midifile\include\MidiEventList.h">
+      <Filter>src\external\MidiFile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\external\midifile\include\MidiFile.h">
+      <Filter>src\external\MidiFile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\external\midifile\include\MidiMessage.h">
+      <Filter>src\external\MidiFile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\formats\midi.h">
+      <Filter>src\formats</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\formats\inti_icelib.h">
       <Filter>src\formats</Filter>
     </ClInclude>
   </ItemGroup>

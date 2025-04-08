@@ -17,4 +17,5 @@ enum class EFileType : uint8_t
     LABN,
     Wave,
     CryoAPC,
+    IntiBigrp
 };

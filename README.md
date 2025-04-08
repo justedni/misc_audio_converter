@@ -7,6 +7,7 @@ This tool converts some obscure or rare audio formats used in various video game
 - WAV to [INDYWV](#indywv-and-lab) (mono ADPCM only)
 - [LAB](#indywv-and-lab) (with embedded INDYWVs) to WAVs
 - [Cryo APC](#apc) to WAV
+- [IntiCreates's BIGRP sequences](#bigrp) to MIDI files
 
 
 ## Handled formats
@@ -29,6 +30,22 @@ This format was used in several point'n click games developed by Cryo in the 90s
 - China: The Forbidden City (1998)
 - Atlantis: The Lost Tales (1997), Atlantis 2 (1999)
 
+### BIGRP
+
+Inti Creates' BIGRP files, which uses ICE (Inti Creates Engine), include embedded MIDI sequences in some of their games. Each song is split into smaller MIDI files. This tool can regroup those sequences by song, grouping tracks together and fixing any MIDI-related conversion problems at the same time.
+Currently handled games:
+- Bloodstained: Curse of the Moon ("Cotm1")
+- Bloodstained: Curse of the Moon 2 ("Cotm2")
+
+Important:
+- the tool expects to find decrypted .bigrp files (the tool doesn't decrypt the files at the moment)
+- you need to specify the game Id when converting Bigrp files, using the -game option. Example: `-game Cotm1`. The tool needs to do some conversions/remappings that are game-specific.
+
+TODO (WIP):
+- conversion of the embedded .wav files into a .sf2
+- handle conversion of .bcgrp files (equivalent of BIGRP containers on the 3DS)
+
+
 ## Usage
 ```
 -in <FileOrFolderPath> : full path of input file or folder (file types will be auto-deduced)
@@ -48,3 +65,7 @@ Examples:
 - INDYWV WVSM decompression algorithm implemented by Crt Vavros in the [Urgon Mod Tools repository](https://github.com/smlu/Urgon)
 - LABN archive format extraction was done by Guilherme Lampert. See [Reverse Engineering LucasArts Outlaws](https://github.com/glampert/reverse-engineering-outlaws)
 - APC specifications and decompression algorithm: [CRYO APC - MultimediaWiki](https://wiki.multimedia.cx/index.php/CRYO_APC)
+- ICE format specifications (for Inti BIGRP) inspired by [vgmstream](https://github.com/vgmstream/vgmstream/tree/master)
+
+## Dependencies
+- [craigsapp's midifile](https://github.com/craigsapp/midifile)

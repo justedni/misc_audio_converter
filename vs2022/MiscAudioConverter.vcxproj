@@ -19,20 +19,39 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\external\midifile\src\Binasc.cpp" />
+    <ClCompile Include="..\src\external\midifile\src\MidiEvent.cpp" />
+    <ClCompile Include="..\src\external\midifile\src\MidiEventList.cpp" />
+    <ClCompile Include="..\src\external\midifile\src\MidiFile.cpp" />
+    <ClCompile Include="..\src\external\midifile\src\MidiMessage.cpp" />
+    <ClCompile Include="..\src\external\midifile\src\Options.cpp" />
     <ClCompile Include="..\src\formats\cryo_apc.cpp" />
     <ClCompile Include="..\src\formats\indywv.cpp" />
     <ClCompile Include="..\src\formats\indywv_data.cpp" />
+    <ClCompile Include="..\src\formats\inti_bigrp.cpp" />
+    <ClCompile Include="..\src\formats\inti_icelib.cpp" />
+    <ClCompile Include="..\src\formats\inti_ron8.cpp" />
     <ClCompile Include="..\src\formats\labn.cpp" />
+    <ClCompile Include="..\src\formats\midi.cpp" />
     <ClCompile Include="..\src\formats\wave.cpp" />
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\unit_test.cpp" />
     <ClCompile Include="..\src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\external\midifile\include\Binasc.h" />
+    <ClInclude Include="..\src\external\midifile\include\MidiEvent.h" />
+    <ClInclude Include="..\src\external\midifile\include\MidiEventList.h" />
+    <ClInclude Include="..\src\external\midifile\include\MidiFile.h" />
+    <ClInclude Include="..\src\external\midifile\include\MidiMessage.h" />
+    <ClInclude Include="..\src\external\midifile\include\Options.h" />
     <ClInclude Include="..\src\formats\common.h" />
     <ClInclude Include="..\src\formats\cryo_apc.h" />
     <ClInclude Include="..\src\formats\indywv.h" />
+    <ClInclude Include="..\src\formats\inti_bigrp.h" />
+    <ClInclude Include="..\src\formats\inti_icelib.h" />
     <ClInclude Include="..\src\formats\labn.h" />
+    <ClInclude Include="..\src\formats\midi.h" />
     <ClInclude Include="..\src\formats\wave.h" />
     <ClInclude Include="..\src\unit_test.h" />
     <ClInclude Include="..\src\utils.h" />
@@ -125,7 +144,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>../src;../src/formats</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../src;../src/formats;../src/external;../src/external/Midifile/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
