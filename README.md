@@ -7,6 +7,7 @@ This tool converts some obscure or rare audio formats used in various video game
 - WAV to [INDYWV](#indywv-and-lab) (mono ADPCM only)
 - [LAB](#indywv-and-lab) (with embedded INDYWVs) to WAVs
 - [Cryo APC](#apc) to WAV
+- [Xatrix C93 and Z94](#xatrix-c93-and-z94) to VOC to WAV
 - [IntiCreates's BIGRP sequences](#bigrp) to MIDI files
 
 
@@ -29,6 +30,12 @@ This format was used in several point'n click games developed by Cryo in the 90s
 - Egypt 1156 B.C. – Tomb of the Pharaoh (1997) and its sequel, Egypt 2 - The Heliopolis Prophecy (2000)
 - China: The Forbidden City (1998)
 - Atlantis: The Lost Tales (1997), Atlantis 2 (1999)
+
+### Xatrix C93 and Z94
+
+The game Cyberia by Xatrix Entertainment (1994) uses multiple proprietary formats:
+- Z94 is a container for various game data. Some files contain compressed .voc files (Creative Voice File). The tool extracts all the entries inside the .z94 container, decompresses them (a Huffman algorithm was used), and then converts the result .voc files to .wav.
+- C93 represents an in-game movie (during the rail shooter sequences). The audio track is made of uncompressed .voc chunks.
 
 ### BIGRP
 

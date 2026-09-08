@@ -33,7 +33,10 @@
     <ClCompile Include="..\src\formats\inti_ron8.cpp" />
     <ClCompile Include="..\src\formats\labn.cpp" />
     <ClCompile Include="..\src\formats\midi.cpp" />
+    <ClCompile Include="..\src\formats\voc.cpp" />
     <ClCompile Include="..\src\formats\wave.cpp" />
+    <ClCompile Include="..\src\formats\xatrix_c93.cpp" />
+    <ClCompile Include="..\src\formats\xatrix_z94.cpp" />
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\unit_test.cpp" />
     <ClCompile Include="..\src\utils.cpp" />
@@ -52,7 +55,9 @@
     <ClInclude Include="..\src\formats\inti_icelib.h" />
     <ClInclude Include="..\src\formats\labn.h" />
     <ClInclude Include="..\src\formats\midi.h" />
+    <ClInclude Include="..\src\formats\voc.h" />
     <ClInclude Include="..\src\formats\wave.h" />
+    <ClInclude Include="..\src\formats\xatrix.h" />
     <ClInclude Include="..\src\unit_test.h" />
     <ClInclude Include="..\src\utils.h" />
   </ItemGroup>

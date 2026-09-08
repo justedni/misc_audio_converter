@@ -12,6 +12,7 @@
 #include "unit_test.h"
 
 #include "cryo_apc.h"
+#include "xatrix.h"
 
 #include <unordered_map>
 
@@ -99,6 +100,8 @@ EFileType getFileTypeFromExt(const std::string& filePath)
     else if (ext == ".wv") { return EFileType::IndyWV; }
     else if (ext == ".wav") { return EFileType::Wave; }
     else if (ext == ".apc") { return EFileType::CryoAPC; }
+    else if (ext == ".c93") { return EFileType::XatrixC93; }
+    else if (ext == ".z94") { return EFileType::XatrixZ94; }
     else if (ext == ".bigrp") { return EFileType::IntiBigrp; }
 
     return EFileType::Unknown;
@@ -142,8 +145,11 @@ bool convertFile(const std::string& inputPath, const std::string outputArg, stri
         return false;
 
     EFileType fileType = getFileTypeFromExt(inputPath);
-    EFileType actualFileType = getFileType(file);
-    assert(fileType == actualFileType);
+    if (fileType != EFileType::XatrixZ94 && fileType != EFileType::XatrixC93)
+    {
+        EFileType actualFileType = getFileType(file);
+        assert(fileType == actualFileType);
+    }
 
     switch (fileType)
     {
@@ -169,6 +175,18 @@ bool convertFile(const std::string& inputPath, const std::string outputArg, stri
     {
         auto outFilePath = getOutFilePath(inputPath, outputArg, "wav");
         CryoAPC::apc_to_wav(inputPath, outFilePath);
+        break;
+    }
+    case EFileType::XatrixC93:
+    {
+        auto outFolderPath = getOutFolderPath(outputArg);
+        xatrix::c93_to_wav(inputPath, outFolderPath);
+        break;
+    }
+    case EFileType::XatrixZ94:
+    {
+        auto outFolderPath = getOutFolderPath(outputArg);
+        xatrix::z94_to_wav(inputPath, outFolderPath);
         break;
     }
     case EFileType::IntiBigrp:
@@ -202,6 +220,8 @@ bool convertFile(const std::string& inputPath, const std::string outputArg, stri
     default:
         std::cerr << "Unrecognized input file type\n";
     }
+
+    return false;
 }
 
 void do_unit_tests()

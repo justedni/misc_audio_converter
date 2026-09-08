@@ -69,6 +69,15 @@
     <ClCompile Include="..\src\formats\inti_icelib.cpp">
       <Filter>src\formats</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\formats\voc.cpp">
+      <Filter>src\formats</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\formats\xatrix_z94.cpp">
+      <Filter>src\formats</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\formats\xatrix_c93.cpp">
+      <Filter>src\formats</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\unit_test.h">
@@ -117,6 +126,12 @@
       <Filter>src\formats</Filter>
     </ClInclude>
     <ClInclude Include="..\src\formats\inti_icelib.h">
+      <Filter>src\formats</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\formats\voc.h">
+      <Filter>src\formats</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\formats\xatrix.h">
       <Filter>src\formats</Filter>
     </ClInclude>
   </ItemGroup>

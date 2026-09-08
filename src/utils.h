@@ -2,11 +2,15 @@
 
 #include <fstream>
 #include <sstream>
+#include <vector>
 
 namespace Utils
 {
     uint16_t swap16(uint16_t x);
     int16_t swap16(int16_t x);
+
+    uint32_t readU32(const std::vector<uint8_t>& b, size_t p);
+    uint16_t readU16(const std::vector<uint8_t>& b, size_t p);
 
     template<typename T>
     T clamp(T val, T lower, T upper)
