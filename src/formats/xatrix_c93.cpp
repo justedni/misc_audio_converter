@@ -93,9 +93,8 @@ inline Movie parse(const std::vector<uint8_t>& d)
     return m;
 }
 
-inline voc::Audio getAudioTrack(const std::vector<uint8_t>& d, const Movie& m)
+inline bool getAudioTrack(const std::vector<uint8_t>& d, const Movie& m, voc::Audio& out_audio)
 {
-    voc::Audio joined;
     bool first = true;
     for (const Frame& f : m.frames)
     {
@@ -104,21 +103,21 @@ inline voc::Audio getAudioTrack(const std::vector<uint8_t>& d, const Movie& m)
 
         const std::vector<uint8_t> slice(d.begin() + f.audioOffset, d.begin() + f.audioOffset + f.audioSize);
         const voc::Audio a = voc::decode(slice);
-        if (first) {
-            joined = a;
+        if (first)
+        {
+            out_audio = a;
             first = false;
         }
-        else {
-            if (a.sampleRate != joined.sampleRate || a.channels != joined.channels || a.bitsPerSample != joined.bitsPerSample)
+        else
+        {
+            if (a.sampleRate != out_audio.sampleRate || a.channels != out_audio.channels || a.bitsPerSample != out_audio.bitsPerSample)
                 throw std::runtime_error("audio format changes mid-movie");
 
-            joined.samples.insert(joined.samples.end(), a.samples.begin(), a.samples.end());
+            out_audio.samples.insert(out_audio.samples.end(), a.samples.begin(), a.samples.end());
         }
     }
 
-    if (first)
-        throw std::runtime_error("movie contains no audio");
-    return joined;
+    return (!first);
 }
 
 } // namespace c93
@@ -135,12 +134,15 @@ void c93_to_wav(const std::string& in_path, const std::string& in_outFilePath)
     const auto stem = std::filesystem::path(in_path).stem().string();
 
     auto outDir = std::filesystem::path(in_outFilePath);
-    std::filesystem::create_directories(outDir);
 
     const c93::Movie m = c93::parse(data);
 
     // one wav (glued together) for the whole movie
-    const voc::Audio audio = c93::getAudioTrack(data, m);
+    voc::Audio audio;
+    if (!c93::getAudioTrack(data, m, audio))
+        return;
+
+    std::filesystem::create_directories(outDir);
 
     std::string outPath = (outDir / (stem + ".wav")).string();
     Wave::write(outPath, (char*)audio.samples.data(), (uint32_t)audio.samples.size(), audio.channels, audio.sampleRate, audio.bitsPerSample);
