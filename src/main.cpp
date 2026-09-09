@@ -102,6 +102,7 @@ EFileType getFileTypeFromExt(const std::string& filePath)
     else if (ext == ".apc") { return EFileType::CryoAPC; }
     else if (ext == ".c93") { return EFileType::XatrixC93; }
     else if (ext == ".z94") { return EFileType::XatrixZ94; }
+    else if (ext == ".m95") { return EFileType::XatrixM95; }
     else if (ext == ".bigrp") { return EFileType::IntiBigrp; }
 
     return EFileType::Unknown;
@@ -145,7 +146,7 @@ bool convertFile(const std::string& inputPath, const std::string outputArg, stri
         return false;
 
     EFileType fileType = getFileTypeFromExt(inputPath);
-    if (fileType != EFileType::XatrixZ94 && fileType != EFileType::XatrixC93)
+    if (!xatrix::isXatrixFile(fileType))
     {
         EFileType actualFileType = getFileType(file);
         assert(fileType == actualFileType);
@@ -187,6 +188,12 @@ bool convertFile(const std::string& inputPath, const std::string outputArg, stri
     {
         auto outFolderPath = getOutFolderPath(outputArg);
         xatrix::z94_to_wav(inputPath, outFolderPath);
+        break;
+    }
+    case EFileType::XatrixM95:
+    {
+        auto outFolderPath = getOutFolderPath(outputArg);
+        xatrix::m95_to_wav(inputPath, outFolderPath);
         break;
     }
     case EFileType::IntiBigrp:

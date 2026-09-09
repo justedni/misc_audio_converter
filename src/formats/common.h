@@ -19,5 +19,6 @@ enum class EFileType : uint8_t
     CryoAPC,
     XatrixC93,
     XatrixZ94,
+    XatrixM95,
     IntiBigrp
 };

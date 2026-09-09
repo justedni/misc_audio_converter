@@ -124,6 +124,11 @@ inline bool getAudioTrack(const std::vector<uint8_t>& d, const Movie& m, voc::Au
 
 namespace xatrix {
 
+bool isXatrixFile(EFileType type)
+{
+    return (type == EFileType::XatrixZ94 || type == EFileType::XatrixC93 || type == EFileType::XatrixC93);
+}
+
 void c93_to_wav(const std::string& in_path, const std::string& in_outFilePath)
 {
     std::ifstream file(in_path, std::ios::binary);

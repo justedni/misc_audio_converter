@@ -7,7 +7,7 @@ This tool converts some obscure or rare audio formats used in various video game
 - WAV to [INDYWV](#indywv-and-lab) (mono ADPCM only)
 - [LAB](#indywv-and-lab) (with embedded INDYWVs) to WAVs
 - [Cryo APC](#apc) to WAV
-- [Xatrix C93 and Z94](#xatrix-c93-and-z94) to VOC to WAV
+- [Xatrix C93, Z94 and M95](#xatrix-c93-z94-and-m95) to VOC to WAV
 - [IntiCreates's BIGRP sequences](#bigrp) to MIDI files
 
 
@@ -31,11 +31,14 @@ This format was used in several point'n click games developed by Cryo in the 90s
 - China: The Forbidden City (1998)
 - Atlantis: The Lost Tales (1997), Atlantis 2 (1999)
 
-### Xatrix C93 and Z94
+### Xatrix C93, Z94 and M95
 
-The game Cyberia by Xatrix Entertainment (1994) uses multiple proprietary formats:
-- Z94 is a container for various game data. Some files contain compressed .voc files (Creative Voice File). The tool extracts all the entries inside the .z94 container, decompresses them (a Huffman algorithm was used), and then converts the result .voc files to .wav.
-- C93 represents an in-game movie (during the rail shooter sequences). The audio track is made of uncompressed .voc chunks.
+The game Cyberia (1994) by Xatrix Entertainment uses multiple proprietary formats:
+- C93 represents an in-game movie (during the rail shooter sequences). The audio track is made of uncompressed .voc (Creative Voice File) chunks. The tool glues all the chunks together and converts them to .wav.
+- Z94 is a container for various game data. Some of the game files contain audio data, stored as compressed chunks. The tool extracts all the entries inside the .z94 container and decompresses them (a Huffman algorithm was used) to .voc then to .wav.
+
+Its sequel, Cyberia 2: Resurrection (1996) introduced a new format:
+- M95 is the new container for in-game movies or sequences, its format is very similar to C93. This time, audio is stored as plain RIFF, so no need to convert from VOC anymore.
 
 ### BIGRP
 
