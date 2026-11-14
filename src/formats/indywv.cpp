@@ -87,49 +87,29 @@ void IndyWV::wv_to_wav(const std::string& in_WvPath, std::string& in_outFilePath
 
 void IndyWV::wav_to_wv(const std::string& in_WavPath, std::string& in_outFilePath)
 {
-    using namespace Wave;
-
-    std::ifstream file(in_WavPath, std::ios::in | std::ios::binary | std::ios::ate);
-    if (!file.is_open())
+    Wave::WavData wav;
+    if (!Wave::read(in_WavPath, wav))
         return;
 
-    std::streamsize fileSize = file.tellg();
-    file.seekg(0, std::ios::beg);
-
-    std::vector<char> buffer(fileSize);
-    if (!file.read(buffer.data(), fileSize))
+    if (wav.audioFormat != 1 || wav.bitDepth != 16)
         return;
 
-    const auto* wavHeader = reinterpret_cast<const WavHeader*>(buffer.data());
-    assert(strncmp((char*)wavHeader->tagRIFF, kRIFF, 4) == 0);
-
-    file.seekg(sizeof(WavHeader), std::ios::beg);
-
-    auto dataToRead = wavHeader->dataChunkSize;
-    char* inBuffer = new char[dataToRead];
-    memset(inBuffer, 0, dataToRead);
-    file.read(inBuffer, dataToRead);
-
-    if (wavHeader->numChannels == 1)
+    if (wav.numChannels == 1)
     {
         // INDYWV ADPCM compression
-        auto outSize = wavHeader->dataChunkSize / 2;
-        char* outBuffer = new char[outSize];
-        memset(outBuffer, 0, outSize);
+        const uint32_t numSamples = static_cast<uint32_t>(wav.samples.size() / 2);
+
+        std::vector<char> outBuffer(static_cast<std::size_t>(numSamples) * 3 + 16, 0);
 
         auto state = DecompressorState();
-        auto compressedSize = compressADPCM(&state, outBuffer, inBuffer, outSize, wavHeader->numChannels);
+        auto compressedSize = compressADPCM(&state, outBuffer.data(), wav.samples.data(), numSamples, wav.numChannels);
 
-        write_wv_file(in_outFilePath, wavHeader, outBuffer, compressedSize);
-
-        delete[] outBuffer;
+        write_wv_file(in_outFilePath, wav, outBuffer.data(), compressedSize);
     }
     else
     {
         // TODO handle WVSM compression
     }
-
-    delete[] inBuffer;
 }
 
 void IndyWV::decompress(std::ifstream& istream, uint32_t inputDataSize, char* outBuffer, uint32_t infSize)
@@ -414,18 +394,18 @@ int IndyWV::compressADPCM(DecompressorState* compState, char* outData, char* inD
     return writtenBytes + 4;
 }
 
-void IndyWV::write_wv_file(std::string& path, const Wave::WavHeader* wavHeader, char* inData, uint32_t compressedSize)
+void IndyWV::write_wv_file(std::string& path, const Wave::WavData& wav, char* inData, uint32_t compressedSize)
 {
     using namespace Utils;
 
     std::ofstream os(path, std::ofstream::binary);
     os.write(IndyWV::kIndyWV, sizeof(IndyWV::kIndyWV));
-    writeInt(os, (uint32_t)(wavHeader->sampleRate));
-    writeInt(os, (uint32_t)(wavHeader->bitDepth));
-    writeInt(os, (uint32_t)(wavHeader->numChannels));
+    writeInt(os, (uint32_t)(wav.sampleRate));
+    writeInt(os, (uint32_t)(wav.bitDepth));
+    writeInt(os, (uint32_t)(wav.numChannels));
     writeInt(os, (uint32_t)(compressedSize + 3));
     writeInt(os, (int32_t)0);
-    writeInt(os, (int32_t)wavHeader->dataChunkSize);
+    writeInt(os, (int32_t)wav.samples.size());
     writeInt(os, (int8_t)0); // Unknown
     writeInt(os, (int16_t)0); // Unknown
     os.write((char*)inData, compressedSize - 4);

@@ -2,7 +2,9 @@
 
 #include "common.h"
 
+#include <cstdint>
 #include <string>
+#include <vector>
 
 namespace Wave {
 
@@ -30,6 +32,17 @@ PACK(struct WavHeader
     int dataChunkSize;
 });
 static_assert(sizeof(WavHeader) == 44, "");
+
+struct WavData
+{
+    uint16_t audioFormat = 0;
+    uint16_t numChannels = 0;
+    uint32_t sampleRate = 0;
+    uint16_t bitDepth = 0;
+    std::vector<char> samples;
+};
+
+bool read(const std::string& path, WavData& out);
 
 void write(const std::string& path, char* pData, uint32_t dataSize, uint8_t numChannels, uint32_t sampleRate, uint32_t bitSize);
 

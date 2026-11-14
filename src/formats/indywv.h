@@ -5,7 +5,7 @@
 #include "common.h"
 
 namespace Wave {
-    struct WavHeader;
+    struct WavData;
 }
 
 PACK(struct IndyWVHeader
@@ -38,7 +38,7 @@ public:
     void wv_to_wav(const std::string& in_WvPath, std::string& in_outFilePath);
     void wav_to_wv(const std::string& in_WavPath, std::string& in_outFilePath);
 
-    void write_wv_file(std::string& path, const Wave::WavHeader* wavHeader, char* inData, uint32_t compressedSize);
+    void write_wv_file(std::string& path, const Wave::WavData& wav, char* inData, uint32_t compressedSize);
 
     void decompress(std::ifstream& istream, uint32_t inputDataSize, char* outBuffer, uint32_t infSize);
 
